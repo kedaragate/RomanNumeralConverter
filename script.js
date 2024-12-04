@@ -27,8 +27,6 @@ function checkNumberOfDigits(num) {
   }
   return count;
 }
-function checkPlaceValue(num) {}
-
 function getRomanValue(obj, value) {
   let objectKeys = Object.keys(obj);
 
@@ -67,22 +65,28 @@ convertBtn.addEventListener("click", () => {
 });
 
 function printRomanValuesForSingleDigitNumber(number, HTMLElement) {
-  console.log(HTMLElement);
-  if (number <= 3) {
-    let count = 1;
-    while (count <= number) {
-      HTMLElement.textContent =
-        HTMLElement.textContent + getRomanValue(romanToArebicObj, 1);
-      count++;
-    }
-  } else if (number >= 6 && number <= 8) {
-    let count = 6;
-    let tempNum5 = getRomanValue(romanToArebicObj, 5);
-    while (count <= number) {
-      HTMLElement.textContent =
-        HTMLElement.textContent + tempNum5 + getRomanValue(romanToArebicObj, 1);
-      count++;
-      tempNum5 = "";
+  if (getRomanValue(romanToArebicObj, number)) {
+    HTMLElement.textContent =
+      HTMLElement.textContent + getRomanValue(romanToArebicObj, number);
+  } else {
+    if (number <= 3) {
+      let count = 1;
+      while (count <= number) {
+        HTMLElement.textContent =
+          HTMLElement.textContent + getRomanValue(romanToArebicObj, 1);
+        count++;
+      }
+    } else if (number >= 6 && number <= 8) {
+      let count = 6;
+      let tempNum5 = getRomanValue(romanToArebicObj, 5);
+      while (count <= number) {
+        HTMLElement.textContent =
+          HTMLElement.textContent +
+          tempNum5 +
+          getRomanValue(romanToArebicObj, 1);
+        count++;
+        tempNum5 = "";
+      }
     }
   }
 }
