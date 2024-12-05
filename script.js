@@ -46,21 +46,22 @@ convertBtn.addEventListener("click", () => {
     if (getRomanValue(romanToArebicObj, inputNumber)) {
       output.textContent = getRomanValue(romanToArebicObj, inputNumber);
     } else {
+      console.log(inputNumber, output);
       printRomanValuesForSingleDigitNumber(inputNumber, output);
     }
-  } else if (numOfDigits === 2) {
-    if (getRomanValue(romanToArebicObj, inputNumber)) {
-      output.textContent = getRomanValue(romanToArebicObj, inputNumber);
-    } else {
-      let numberAtOncePlace = inputNumber % 10;
-      console.log(numberAtOncePlace);
-      output.textContent = getRomanValue(
-        romanToArebicObj,
-        inputNumber - numberAtOncePlace
-      );
+    // } else if (numOfDigits === 2) {
+    //   if (getRomanValue(romanToArebicObj, inputNumber)) {
+    //     output.textContent = getRomanValue(romanToArebicObj, inputNumber);
+    //   } else {
+    //     let numberAtOncePlace = inputNumber % 10;
+    //     console.log(numberAtOncePlace);
+    //     output.textContent = getRomanValue(
+    //       romanToArebicObj,
+    //       inputNumber - numberAtOncePlace
+    //     );
 
-      printRomanValuesForSingleDigitNumber(numberAtOncePlace, output);
-    }
+    //     printRomanValuesForSingleDigitNumber(numberAtOncePlace, output);
+    //   }
   }
 });
 
@@ -70,23 +71,31 @@ function printRomanValuesForSingleDigitNumber(number, HTMLElement) {
       HTMLElement.textContent + getRomanValue(romanToArebicObj, number);
   } else {
     if (number <= 3) {
-      let count = 1;
-      while (count <= number) {
-        HTMLElement.textContent =
-          HTMLElement.textContent + getRomanValue(romanToArebicObj, 1);
-        count++;
-      }
+      print(HTMLElement, getRomanValue, romanToArebicObj, 1, "", 1, number);
     } else if (number >= 6 && number <= 8) {
-      let count = 6;
-      let tempNum5 = getRomanValue(romanToArebicObj, 5);
-      while (count <= number) {
-        HTMLElement.textContent =
-          HTMLElement.textContent +
-          tempNum5 +
-          getRomanValue(romanToArebicObj, 1);
-        count++;
-        tempNum5 = "";
-      }
+      print(HTMLElement, getRomanValue, romanToArebicObj, 1, 5, 6, number);
     }
+  }
+}
+function print(
+  ele,
+  callback,
+  obj,
+  numberTobeRepeated,
+  fixedNumber,
+  countToStartAt,
+  countEndAt
+) {
+  count = countToStartAt;
+  let temp = callback(obj, fixedNumber) || "";
+
+  while (count <= countEndAt) {
+    console.log(temp);
+    console.log(ele);
+    ele.textContent =
+      ele.textContent + temp + callback(obj, numberTobeRepeated);
+
+    count++;
+    temp = "";
   }
 }
