@@ -41,34 +41,32 @@ convertBtn.addEventListener("click", () => {
 
   let inputNumber = Number(input.value);
   let numOfDigits = checkNumberOfDigits(inputNumber);
-
+  if (getStdRomanValue(romanToArebicObj, inputNumber)) {
+    output.textContent = getStdRomanValue(romanToArebicObj, inputNumber);
+  }
   if (numOfDigits === 1) {
-    if (getStdRomanValue(romanToArebicObj, inputNumber)) {
-      output.textContent = getStdRomanValue(romanToArebicObj, inputNumber);
-    } else {
-      if (inputNumber <= 3) {
-        getNonStdRomanValues(
-          inputNumber,
-          output,
-          getStdRomanValue,
-          romanToArebicObj,
-          1,
-          "",
-          1,
-          inputNumber
-        );
-      } else if (inputNumber >= 6 && inputNumber <= 8) {
-        getNonStdRomanValues(
-          inputNumber,
-          output,
-          getStdRomanValue,
-          romanToArebicObj,
-          1,
-          5,
-          6,
-          inputNumber
-        );
-      }
+    if (inputNumber <= 3) {
+      getNonStdRomanValues(
+        inputNumber,
+        output,
+        getStdRomanValue,
+        romanToArebicObj,
+        1,
+        "",
+        1,
+        inputNumber
+      );
+    } else if (inputNumber >= 6 && inputNumber <= 8) {
+      getNonStdRomanValues(
+        inputNumber,
+        output,
+        getStdRomanValue,
+        romanToArebicObj,
+        1,
+        5,
+        6,
+        inputNumber
+      );
     }
   } else if (numOfDigits === 2) {
     if (getStdRomanValue(romanToArebicObj, inputNumber)) {
@@ -77,7 +75,19 @@ convertBtn.addEventListener("click", () => {
       let numberAtOncePlace = inputNumber % 10;
       let numberAtTensPlace = inputNumber - numberAtOncePlace;
       if (numberAtOncePlace === 0) {
-        console.log("Here");
+        //developing here
+        if (inputNumber <= 30) {
+          getNonStdRomanValues(
+            inputNumber,
+            output,
+            getStdRomanValue,
+            romanToArebicObj,
+            10,
+            "",
+            1,
+            3
+          );
+        }
       } else {
         output.textContent =
           getStdRomanValue(romanToArebicObj, numberAtTensPlace) +
