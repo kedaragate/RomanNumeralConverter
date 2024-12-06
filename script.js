@@ -27,7 +27,7 @@ function checkNumberOfDigits(num) {
   }
   return count;
 }
-function getRomanValue(obj, value) {
+function getStdRomanValue(obj, value) {
   let objectKeys = Object.keys(obj);
 
   let key = objectKeys.find((key) => {
@@ -43,38 +43,74 @@ convertBtn.addEventListener("click", () => {
   let numOfDigits = checkNumberOfDigits(inputNumber);
 
   if (numOfDigits === 1) {
-    if (getRomanValue(romanToArebicObj, inputNumber)) {
-      output.textContent = getRomanValue(romanToArebicObj, inputNumber);
+    if (getStdRomanValue(romanToArebicObj, inputNumber)) {
+      output.textContent = getStdRomanValue(romanToArebicObj, inputNumber);
     } else {
-      console.log(inputNumber, output);
-      printRomanValuesForSingleDigitNumber(inputNumber, output);
+      if (inputNumber <= 3) {
+        getNonStdRomanValues(
+          inputNumber,
+          output,
+          getStdRomanValue,
+          romanToArebicObj,
+          1,
+          "",
+          1,
+          inputNumber
+        );
+      } else if (inputNumber >= 6 && inputNumber <= 8) {
+        getNonStdRomanValues(
+          inputNumber,
+          output,
+          getStdRomanValue,
+          romanToArebicObj,
+          1,
+          5,
+          6,
+          inputNumber
+        );
+      }
     }
-    // } else if (numOfDigits === 2) {
-    //   if (getRomanValue(romanToArebicObj, inputNumber)) {
-    //     output.textContent = getRomanValue(romanToArebicObj, inputNumber);
-    //   } else {
-    //     let numberAtOncePlace = inputNumber % 10;
-    //     console.log(numberAtOncePlace);
-    //     output.textContent = getRomanValue(
-    //       romanToArebicObj,
-    //       inputNumber - numberAtOncePlace
-    //     );
-
-    //     printRomanValuesForSingleDigitNumber(numberAtOncePlace, output);
-    //   }
+  } else if (numOfDigits === 2) {
+    if (getStdRomanValue(romanToArebicObj, inputNumber)) {
+      output.textContent = getStdRomanValue(romanToArebicObj, inputNumber);
+    } else {
+      let numberAtOncePlace = inputNumber % 10;
+      let numberAtTensPlace = inputNumber - numberAtOncePlace;
+      if (numberAtOncePlace === 0) {
+        console.log("Here");
+      } else {
+        output.textContent =
+          getStdRomanValue(romanToArebicObj, numberAtTensPlace) +
+          getNonStdRomanValues(numberAtOncePlace, output);
+      }
+    }
   }
 });
 
-function printRomanValuesForSingleDigitNumber(number, HTMLElement) {
-  if (getRomanValue(romanToArebicObj, number)) {
+function getNonStdRomanValues(
+  number,
+  HTMLElement,
+  getStdRomanValue,
+  romanToArebicObj,
+  numberTobeRepeated,
+  fixedNumber,
+  countToStartAt,
+  countEndAt
+) {
+  if (getStdRomanValue(romanToArebicObj, number)) {
     HTMLElement.textContent =
-      HTMLElement.textContent + getRomanValue(romanToArebicObj, number);
+      HTMLElement.textContent + getStdRomanValue(romanToArebicObj, number);
+    return HTMLElement.textContent;
   } else {
-    if (number <= 3) {
-      print(HTMLElement, getRomanValue, romanToArebicObj, 1, "", 1, number);
-    } else if (number >= 6 && number <= 8) {
-      print(HTMLElement, getRomanValue, romanToArebicObj, 1, 5, 6, number);
-    }
+    return print(
+      HTMLElement,
+      getStdRomanValue,
+      romanToArebicObj,
+      numberTobeRepeated,
+      fixedNumber,
+      countToStartAt,
+      countEndAt
+    );
   }
 }
 function print(
@@ -90,12 +126,11 @@ function print(
   let temp = callback(obj, fixedNumber) || "";
 
   while (count <= countEndAt) {
-    console.log(temp);
-    console.log(ele);
     ele.textContent =
       ele.textContent + temp + callback(obj, numberTobeRepeated);
 
     count++;
     temp = "";
   }
+  return ele.textContent;
 }
