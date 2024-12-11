@@ -27,14 +27,6 @@ function checkNumberOfDigits(num) {
   }
   return count;
 }
-function getStdRomanValue(obj, value) {
-  let objectKeys = Object.keys(obj);
-
-  let key = objectKeys.find((key) => {
-    return obj[key] === value;
-  });
-  return key;
-}
 
 convertBtn.addEventListener("click", () => {
   output.textContent = "";
@@ -44,8 +36,10 @@ convertBtn.addEventListener("click", () => {
   if (getStdRomanValue(romanToArebicObj, inputNumber)) {
     output.textContent = getStdRomanValue(romanToArebicObj, inputNumber);
   }
+
   if (numOfDigits === 1) {
-    if (inputNumber <= 3) {
+    if (inputNumber / 5 < 1) {
+      console.log(inputNumber);
       getNonStdRomanValues(
         inputNumber,
         output,
@@ -56,7 +50,8 @@ convertBtn.addEventListener("click", () => {
         1,
         inputNumber
       );
-    } else if (inputNumber >= 6 && inputNumber <= 8) {
+    } else if (inputNumber / 5 > 1) {
+      console.log(inputNumber);
       getNonStdRomanValues(
         inputNumber,
         output,
@@ -74,24 +69,36 @@ convertBtn.addEventListener("click", () => {
     } else {
       let numberAtOncePlace = inputNumber % 10;
       let numberAtTensPlace = inputNumber - numberAtOncePlace;
-      if (numberAtOncePlace === 0) {
-        //developing here
-        if (inputNumber <= 30) {
-          getNonStdRomanValues(
-            inputNumber,
-            output,
-            getStdRomanValue,
-            romanToArebicObj,
-            10,
-            "",
-            1,
-            3
-          );
-        }
+
+      //developing here
+
+      if (inputNumber < 40 && inputNumber > 20) {
+        let endCount = Math.floor(inputNumber / 10);
+
+        getNonStdRomanValues(
+          inputNumber,
+          output,
+          getStdRomanValue,
+          romanToArebicObj,
+          10,
+          "",
+          1,
+          endCount
+        );
       } else {
-        output.textContent =
-          getStdRomanValue(romanToArebicObj, numberAtTensPlace) +
-          getNonStdRomanValues(numberAtOncePlace, output);
+        //   console.log(numberAtTensPlace);
+        //   output.textContent =
+        //     getStdRomanValue(romanToArebicObj, numberAtTensPlace) +
+        //     getNonStdRomanValues(
+        //       numberAtOncePlace,
+        //       output,
+        //       getStdRomanValue,
+        //       romanToArebicObj,
+        //       1,
+        //       "",
+        //       1,
+        //       numberAtOncePlace
+        //     );
       }
     }
   }
@@ -122,6 +129,15 @@ function getNonStdRomanValues(
       countEndAt
     );
   }
+}
+
+function getStdRomanValue(obj, value) {
+  let objectKeys = Object.keys(obj);
+
+  let key = objectKeys.find((key) => {
+    return obj[key] === value;
+  });
+  return key;
 }
 function print(
   ele,
