@@ -28,6 +28,7 @@ function checkNumberOfDigits(num) {
   return count;
 }
 
+console.log(getNumberatOncePlace(1200, 1000));
 convertBtn.addEventListener("click", () => {
   output.textContent = "";
 
@@ -46,13 +47,20 @@ convertBtn.addEventListener("click", () => {
         ? 100
         : 1000;
     let tempInput = inputNumber - (inputNumber % tempMultiplyer);
+
     while (count <= numOfDigits) {
       if (tempInput / (5 * tempMultiplyer) < 1) {
         let numberTobeRepeated = tempMultiplyer;
 
-        let fixedNumber = tempMultiplyer;
-        let countToStartAt = 1;
-        let countEndAt = numOfDigits;
+        let fixedNumber = numOfDigits === 1 ? null : tempInput;
+        let countToStartAt = numOfDigits === 1 ? 1 : tempInput;
+        let countEndAt = inputNumber;
+        console.log(
+          numberTobeRepeated,
+          fixedNumber,
+          countToStartAt,
+          countEndAt
+        );
 
         print(
           output,
@@ -97,26 +105,26 @@ function print(
   callback,
   obj,
   numberTobeRepeated,
-  fixedNumber,
+  // fixedNumber,
   countToStartAt,
   countEndAt
 ) {
   count = countToStartAt;
-  let temp = callback(obj, fixedNumber) || "";
-  console.log(
-    ele.textContent,
-    "numberTobeRepeated:" + numberTobeRepeated,
-    "fixedNumber:" + fixedNumber,
-    "countToStartAt:" + countToStartAt,
-    "countEndAt:" + countEndAt
-  );
+  // let temp = callback(obj, fixedNumber) || "";
+  // console.log(
+  //   ele.textContent,
+  //   "numberTobeRepeated:" + numberTobeRepeated,
+  //   "fixedNumber:" + fixedNumber,
+  //   "countToStartAt:" + countToStartAt,
+  //   "countEndAt:" + countEndAt
+  // );
+  // console.log(count, countEndAt);
   while (count <= countEndAt) {
-    console.log(ele.textContent, count);
-    ele.textContent =
-      ele.textContent + temp + callback(obj, numberTobeRepeated);
+    console.log(temp);
+    ele.textContent = ele.textContent + callback(obj, numberTobeRepeated);
 
     count++;
-    temp = "";
+    // temp = "";
   }
   return ele.textContent;
 }
